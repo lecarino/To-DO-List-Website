@@ -1,0 +1,54 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% block content %}
+{% include "header.html" %}
+
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('../static/assets/img/home2-bg.jpg')">
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="site-heading">
+          <h2 class="mb-4">DEMO To Do List Website</h2>
+          <p id="current-date">{{ current_date }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      <div class="row">
+        <div class="col-9">
+          <form method="post">
+            <div id="new-todo" contenteditable="true" onclick="clearDefaultText(this)" aria-placeholder="Write Something here"></div>
+            <ul id="todoList" class="list-unstyled">
+              {% for post in all_posts %}
+                <li class="d-flex align-items-center">
+                  <input type="checkbox" class="form-check-input me-2" id="{{ 'checkbox-' ~ post.id }}" {% if post.completed %}checked{% endif %}>
+                  <span>{{ post.body|safe }}</span>
+                  <a href="{{ url_for('delete_post', post_id=post.id) }}" class="ms-2">✘</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Post -->
+      <!-- Only show Create Post button if user is logged in -->
+
+      <div class="d-flex justify-content-end mb-4">
+        <a
+          class="btn btn-primary float-right"
+          href="{{url_for('add_new_post')}}"
+          >Create New Post</a
+        >
+      </div>
+      
+{% include "footer.html" %} {% endblock %}
